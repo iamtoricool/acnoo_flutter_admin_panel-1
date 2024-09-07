@@ -36,10 +36,10 @@ jobs:
           path: ./build/web/
           filename: web.zip
       - name: Check Files
-        run: ls -R ./build
+        run: ls -al
 
       - name: Create Upload Folder
-        run: mkdir uploadables && cd uploadables && cp ../build/web.zip ./
+        run: mkdir uploadables && cd uploadables && cp ../web.zip ./
 
       - name: Upload Build Files
         uses: actions/upload-artifact@v4
