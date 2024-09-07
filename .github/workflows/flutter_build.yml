@@ -34,7 +34,6 @@ jobs:
         uses: thedoctor0/zip-release@0.7.5
         with:
           path: ./build/web/
-          directory: ./build/
           filename: web.zip
       - name: Check Files
         run: ls -R ./build
