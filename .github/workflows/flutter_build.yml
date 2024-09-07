@@ -30,22 +30,25 @@ jobs:
       - name: Build Flutter APKs
         run: flutter build apk --split-per-abi
 
-      - name: Build Flutter Web
-        run: flutter build web --release --no-tree-shake-icons
+      # - name: Build Flutter Web
+      #   run: flutter build web --release --no-tree-shake-icons
 
-      - name: Archive Web Files
-        uses: thedoctor0/zip-release@0.7.5
-        with:
-          path: ./build/web/
-          filename: web.zip
+      # - name: Archive Web Files
+      #   uses: thedoctor0/zip-release@0.7.5
+      #   with:
+      #     path: ./build/web/
+      #     filename: web.zip
 
       - name: Check Files
         run: ls -R ./build/
 
       - name: Create Upload Folder
-        run: mkdir uploadables && cd uploadables && cp ../web.zip ./ && cp ../build/app/outputs/flutter-apk/*.apk ./
+        # run: mkdir uploadables && cd uploadables && cp ../web.zip ./ && cp ../build/app/outputs/flutter-apk/*.apk ./
+        run: mkdir uploadables && cd uploadables && cp ../build/app/outputs/flutter-apk/*.apk ./
       
       - name: Upload to Release
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: gh release create v${{ github.run_number }} .*
 
       # - name: Upload Build Files
