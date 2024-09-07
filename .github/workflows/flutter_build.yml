@@ -56,6 +56,9 @@ jobs:
     - name: Create Github Release
       uses: softprops/action-gh-release@v2
       with:
+        name: release ${{ github.run_number }}
+        tag_name: ${{ github.run_number }}
+
         files: |
           ./web.zip
 
