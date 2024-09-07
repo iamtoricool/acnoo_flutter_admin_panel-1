@@ -30,11 +30,20 @@ jobs:
       - name: Build Flutter Web
         run: flutter build web --release --no-tree-shake-icons
 
+      - name: Archive Downloaded Files
+        uses: thedoctor0/zip-release@0.7.5
+        with:
+          path: ./build/web/
+          filename: web.zip
+
+      - name: Create Upload Folder
+        run: mkdir uploadables && cd uploadables && cp ../build/web.zip
+
       - name: Upload Build Files
         uses: actions/upload-artifact@v4
         with:
-          name: web
-          path: ./build/web
+          name: upload-files
+          path: ./uploadables
 
   release-build-files:
     name: Publish Build Files
@@ -44,23 +53,18 @@ jobs:
     - name: Download Build Files
       uses: actions/download-artifact@v4
       with:
-        name: web
+        name: downloadable-files
     
     - name: Test Download Files
       run: ls -R
-
-    - name: Archive Downloaded Files
-      uses: thedoctor0/zip-release@0.7.5
-      with:
-        filename: web.zip
-    - name: Create Github Release
-      uses: softprops/action-gh-release@v2
-      with:
-        name: release ${{ github.run_number }}
-        tag_name: ${{ github.run_number }}
-
-        files: |
-          ./web.zip
+    
+    # - name: Create Github Release
+    #   uses: softprops/action-gh-release@v2
+    #   with:
+    #     name: release ${{ github.run_number }}
+    #     tag_name: ${{ github.run_number }}
+    #     files: |
+    #       ./web.zip
 
     # - name: Create Github Release
     #   id: create-github-release
