@@ -35,6 +35,8 @@ jobs:
         with:
           path: ./build/web/
           filename: web.zip
+      - name: Check Files
+        run: ls -al
 
       - name: Create Upload Folder
         run: mkdir uploadables && cd uploadables && cp ../build/web.zip ./
